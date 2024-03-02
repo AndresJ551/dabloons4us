@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  ul
+    each user in users
+      li #{user._id} #{user.username}: #{user.dabloons} Dabloons.
+

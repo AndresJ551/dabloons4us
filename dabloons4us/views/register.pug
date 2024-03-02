@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  form(method="POST" action="/register")
+    p
+      label(for="username")
+      input(type="text" name="username")
+    p
+      label(for="password")
+      input(type="password" name="password")
+    p
+      input(type="submit" value="Register")
+    p= error

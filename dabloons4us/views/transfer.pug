@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  form(method="POST" action="/transfer")
+    p
+      label(for="username")
+        Username
+      input(type="text" name="username")
+    p
+      label(for="amount")
+        Current amount: #{dabloons} Dabloons
+      input(type="number" name="amount")
+    p
+      input(type="submit" value="Send")
+    p= error
