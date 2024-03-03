@@ -3,9 +3,11 @@ const { userModel } = require('../models');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-  userModel.find({}, 'username dabloons lastRedeem').sort({ dabloons: -1 }).limit(25).then((result, err) => {
-    res.render('index', { title: 'Dabloons4us', users: result });
-  });
+  isLogged = false;
+  if (req.session.username) {
+    isLogged = true;
+  }
+  res.render('index', { title: 'Dabloons4us', isLogged: isLogged });
 });
 
 module.exports = router;

@@ -10,6 +10,7 @@ const mongoose      = require('mongoose');
 const { userModel } = require('./models');
 
 var indexRouter     = require('./routes/index');
+var bankRouter      = require('./routes/bank');
 var usersRouter     = require('./routes/users');
 var trasferRouter   = require('./routes/transfer');
 var redeemRouter    = require('./routes/redeem');
@@ -34,6 +35,7 @@ redisClient.connect().catch(console.error);
 app.locals.salt = '';
 app.locals.initial_dabloons = 20;
 app.locals.redeemable_dabloons = 10;
+app.locals.redeemTimeout = (1000 * 60 * 60 * 23); // 23 hrs.
 app.locals.secret = '';
 
 app.set('views', path.join(__dirname, 'views'));
@@ -53,10 +55,13 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: app.locals.secret,
-  cookie: { maxAge: 60 * 60 * 1000 }
+  cookie: {
+    maxAge: (30 * 24 * 60 * 60 * 1000)
+  }
 }));
 
 app.use('/',         indexRouter);
+app.use('/bank',     bankRouter);
 app.use('/users',    usersRouter);
 app.use('/transfer', trasferRouter);
 app.use('/redeem',   redeemRouter);

@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   if (req.session.username) {
     res.redirect('/users');
   } else {
-    res.render('login', { title: 'Login', error: '' });
+    res.render('login', { title: 'Login', isLogged: false, error: '' });
   }
 });
 
@@ -23,7 +23,7 @@ router.post('/', function(req, res, next) {
           req.session.dabloons   = result.dabloons;
           req.session.createdAt  = result.createdAt;
           req.session.lastRedeem = result.lastRedeem;
-          res.redirect('/users');
+          res.redirect('/bank');
         } else {
           res.render('login', { title: 'Login', error: 'Incorrect credentials.' });
         }

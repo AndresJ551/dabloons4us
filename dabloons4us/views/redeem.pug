@@ -2,7 +2,12 @@ extends layout
 
 block content
   h1= title
-  form(method="POST" action="/redeem")
-    p
-      input(type="submit" value="Redeem")
+  form(method='POST', id='form_redeem', action='/redeem')
+    a(href='javascript:;', onclick='document.getElementById("form_redeem").submit();', class='redeem-button')
+      if isRedeemable
+        img(src='/images/redeem_gold.png', alt='Redeem')
+      else
+        img(src='/images/redeem_gray.png', alt='Redeem')
     p= error
+  a(href='/bank', class='button back-button')
+    img(src='/images/back.png', alt='Go back')

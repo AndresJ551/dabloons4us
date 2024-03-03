@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  h5 Currently have: #{dabloons} Dabloons.
+  a(href='/transfer' class='button w-button') Transfer Dabloons
+  br
+  a(href='/redeem' class='button w-button') Redeem Dabloons
+  br
+  a(href='/' class='button back-button')
+    img(src='/images/back.png' alt='Go Back')

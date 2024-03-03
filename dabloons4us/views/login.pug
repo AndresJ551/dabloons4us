@@ -2,13 +2,12 @@ extends layout
 
 block content
   h1= title
-  form(method="POST" action="/login")
-    p
-      label(for="username")
-      input(type="text" name="username")
-    p
-      label(for="password")
-      input(type="password" name="password")
-    p
-      input(type="submit" value="Login")
+  form(method='POST', action='/login')
+    input(type='text', class='input', name='username', placeholder='username')
+    br
+    input(type='password', class='input', name='password', placeholder='password')
+    br
+    input(type='submit', class='input', value='Login')
     p= error
+  a(href='/', class='button back-button')
+    img(src='/images/back.png', alt='Go back')

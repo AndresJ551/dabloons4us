@@ -5,11 +5,13 @@ var router  = express.Router();
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   if (req.session.username) {
-    userModel.find({}, 'username dabloons').sort({ dabloons: -1 }).limit(25).then((result, err) => {
-      res.render('users', { title: 'Users', users: result, isLogged: true});
+    res.render('bank', {
+      title: 'Dabloons4us Bank',
+      dabloons: req.session.dabloons,
+      isLogged: true
     });
   } else {
-    console.log('Access denied to Users.')
+    console.log('Access denied to Bank.')
     res.redirect('/login');
   }
 });

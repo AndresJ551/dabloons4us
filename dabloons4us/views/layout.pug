@@ -2,6 +2,53 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+
+    meta(charset='utf-8')
+    meta(content='width=device-width, initial-scale=1', name='viewport')
+
+    meta(property='og:url' content='https://dabloons4.us')
+    meta(property='og:type' content='website')
+    meta(property='og:title' content='Dabloons For Us')
+    meta(property='og:description' content='A place to get, transfer and save your Dabloons. Get 10 Dabloons every day just by login in!')
+    meta(property='og:image' content='https://dabloons4.us/images/Dabloons_Share.png')
+    meta(name='twitter:card' content='summary_large_image')
+    meta(property='twitter:domain' content='dabloons4.us')
+    meta(property='twitter:url' content='https://dabloons4.us')
+    meta(name='twitter:title' content='Dabloons For Us')
+    meta(name='twitter:description' content='A place to get, transfer and save your Dabloons. Get 10 Dabloons every day just by login in!')
+    meta(name='twitter:image' content='https://dabloons4.us/images/Dabloons_Share.png')
+
+    link(href='https://fonts.googleapis.com', rel='preconnect')
+    link(href='https://fonts.gstatic.com', rel='preconnect', crossorigin='anonymous')
+    link(href='/stylesheets/style.css', rel='stylesheet')
+    link(href='/images/favicon.ico', rel='shortcut icon', type='image/x-icon')
+    link(href='/images/favicon.png', rel='apple-touch-icon')
+    script(src='https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js', type='text/javascript')
+  body(class='body')
+    div(class='hero')
+        div(data-collapse='medium', data-animation='default', data-duration='400', data-doc-height='1', data-easing='ease', data-easing2='ease', role='banner', class='nav w-nav')
+            a(href='/')
+              img(src='/images/Dabloons4us.png', width='222', alt='Dabloons4us Logo', height='auto', sizes='222px', class='image-5')
+            div(class='nav-inner')
+                div(class='nav-menu-wrap')
+                    nav(role='navigation', class='nav-menu-2 w-nav-menu')
+                      if isLogged
+                        a(href='/bank', class='nav-link w-nav-link') Dabloon Bank
+                        a(href='/logout', class='nav-link w-nav-link') Log out
+                      else
+                        a(href='/register', class='nav-link w-nav-link') Register
+                        a(href='/login', class='nav-link w-nav-link') Log in
+                div(class='menu-button w-nav-button')
+                    div(class='menu-icon w-icon-nav-menu')
+
+    div(class='section center')
+      div(class='hero-content')
+        block content
+    block promo
+    div(class='footer')
+        div(class='wrap')
+          a(href='/')
+            img(src='/images/Dabloons_Wallet.png', width='136', alt='Dabloons Wallet', sizes='136px')
+          div(class='footer-list')
+            a(href='https://hardcoredevs.com/', target='_blank', class='footer-link') Powered by Hardcore Devs
+    script(src='https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js', type='text/javascript', integrity='sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=', crossorigin='anonymous')

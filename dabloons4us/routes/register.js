@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   if (req.session.username) {
     res.redirect('/');
   } else {
-    res.render('register', { title: 'Register', error: '' });
+    res.render('register', { title: 'Register', isLogged: true, error: '' });
   }
 });
 

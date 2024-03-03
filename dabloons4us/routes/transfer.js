@@ -7,6 +7,7 @@ router.get('/', function(req, res, next) {
     res.render('transfer', {
       title: 'Transfer Dabloons',
       dabloons: req.session.dabloons || 0,
+      isLogged: true,
       error: ''
     });
   } else {

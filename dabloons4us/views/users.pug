@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  ul
+    each user in users
+      li #{user.username} #{user.dabloons}
+  a(href='/', class='button back-button')
+    img(src='/images/back.png', alt='Go back')

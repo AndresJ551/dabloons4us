@@ -2,15 +2,13 @@ extends layout
 
 block content
   h1= title
-  form(method="POST" action="/transfer")
-    p
-      label(for="username")
-        Username
-      input(type="text" name="username")
-    p
-      label(for="amount")
-        Current amount: #{dabloons} Dabloons
-      input(type="number" name="amount")
-    p
-      input(type="submit" value="Send")
+  h5 Current amount: #{dabloons} Dabloons
+  form(method="POST", action="/transfer")
+    input(type="text", class="input", name="username", placeholder="Username")
+    br
+    input(type="number", class="input", name="amount", placeholder="Amount")
+    br
+    input(type="submit", class="input", value="Send")
     p= error
+  a(href='/bank', class='button back-button')
+    img(src='/images/back.png', alt='Go back')

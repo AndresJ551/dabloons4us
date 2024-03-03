@@ -1,9 +1,33 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
-  ul
-    each user in users
-      li #{user.username}: #{user.dabloons} Dabloons.
+  h3(class='heading-5') Get, transfer and save your Dabloons.
+  h3(class='hero-subhead') All in the same place.
+  if isLogged
+    a(href='/bank', class='button w-button') Dabloons Bank
+    a(href='/logout', class='button w-button') Log Out
+  else
+    a(href='/register', class='button w-button') Register
+    a(href='/login', class='button w-button') Log In
 
+block promo
+  div(class='section')
+    div(class='feature-wrap icons')
+    div(class='feature-wrap icons numbers')
+      div(class='feature-content icons numbers')
+        div(class='number') +12k
+        h4(class='black-text') Total Dabloons
+      div(class='feature-content icons numbers')
+        div(class='number') +1.5k
+        h4(class='black-text') Transfered Dabloons
+      div(class='feature-content icons numbers')
+        div(class='number') 75
+        h4(class='black-text') Active users
+      div(class='feature-content icons numbers')
+        div(class='number') 600
+        h4(class='black-text') Total users
+  
+    div(class='section wide')
+      div(class='wrap')
+        h2 Support us
+        div(class='wrapper') LTC
