@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/', function(req, res, next) {
-  if(req.body.username != "" && req.body.password != ""){
+  if (req.body.username != "" && req.body.password != ""){
     username_low = req.body.username.toLowerCase();
 
     userModel.findOne({ username_low: username_low }).then((result, err) => {
@@ -21,11 +21,11 @@ router.post('/', function(req, res, next) {
         res.render('register', { title: 'Register', error: 'User already exists.' });
       } else {
         username = req.body.username;
+        dabloons = req.app.locals.initial_dabloons;
         hash({ password: req.body.password, salt: req.app.locals.salt }, function (err, pass, salt, hash) {
           if (err) throw err;
           password = hash
           // store the salt & hash in the db
-          dabloons = req.app.locals.inital_dabloons;
           const user = new userModel({
             username,
             username_low,
@@ -33,12 +33,10 @@ router.post('/', function(req, res, next) {
             dabloons
           });
           const save = user.save().then((result, err)=>{
-            req.session.regenerate(() => {
-              req.session.username = req.body.username;
-              req.session._id = result._id;
-              req.session.dabloons = dabloons;
-              req.session.createdAt = result.createdAt;
-            });
+            req.session.username = req.body.username;
+            req.session._id = result._id;
+            req.session.dabloons = dabloons;
+            req.session.createdAt = result.createdAt;
           });
           res.redirect('/users');
         });

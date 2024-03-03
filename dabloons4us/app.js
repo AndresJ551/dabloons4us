@@ -11,10 +11,12 @@ const { userModel } = require('./models');
 
 var indexRouter     = require('./routes/index');
 var usersRouter     = require('./routes/users');
-var registerRouter  = require('./routes/register');
 var trasferRouter   = require('./routes/transfer');
+var redeemRouter    = require('./routes/redeem');
+var registerRouter  = require('./routes/register');
 var loginRouter     = require('./routes/login');
 var logoutRouter    = require('./routes/logout');
+const { randomUUID } = require('crypto');
 
 mongoose.connect('mongodb://127.0.0.1:27017/dabloons').then(() => {
   console.log('Connection success');
@@ -25,12 +27,14 @@ mongoose.connect('mongodb://127.0.0.1:27017/dabloons').then(() => {
 var app = express();
 
 const redisClient = redis.createClient({
-    url: "redis://localhost:6379",
+    url: "redis://127.0.0.1:6379",
 });
 redisClient.connect().catch(console.error);
 
-app.locals.salt = 'NbiyU9TwbYz6sjc0hrFYSbjV6yaeoai1Y7US5mM';
+app.locals.salt = '';
 app.locals.initial_dabloons = 20;
+app.locals.redeemable_dabloons = 10;
+app.locals.secret = '';
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -40,17 +44,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(session({
   store: new RedisStore({ client: redisClient }),
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: false },
-  secret: 'P&;nF{8VaC}b@+,i:V4f$ND$xqF9nYr.'
+  genid: function(req) {
+    return randomUUID()
+  },
+  resave: true,
+  saveUninitialized: true,
+  secret: app.locals.secret,
+  cookie: { maxAge: 60 * 60 * 1000 }
 }));
 
 app.use('/',         indexRouter);
 app.use('/users',    usersRouter);
-app.use('/transfer', trasferRouter)
+app.use('/transfer', trasferRouter);
+app.use('/redeem',   redeemRouter);
 app.use('/register', registerRouter);
 app.use('/login',    loginRouter);
 app.use('/logout',   logoutRouter);
@@ -69,5 +78,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1); // trust first proxy
+}
+
+app.listen(80, '0.0.0.0');
 
 module.exports = app;
