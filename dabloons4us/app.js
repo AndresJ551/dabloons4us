@@ -32,10 +32,15 @@ const redisClient = redis.createClient({
 });
 redisClient.connect().catch(console.error);
 
+setInterval(()=>{
+  redisSessions(redisClient);
+}, 1000 * 60 * 5); // Every 5 minutes.
+
+app.locals.redis = redisClient;
 app.locals.salt = '';
 app.locals.initial_dabloons = 20;
 app.locals.redeemable_dabloons = 10;
-app.locals.redeemTimeout = (1000 * 60 * 60 * 23); // 23 hrs.
+app.locals.redeem_timeout = (1000 * 60 * 60 * 23); // 23 hrs.
 app.locals.secret = '';
 
 app.set('views', path.join(__dirname, 'views'));
@@ -57,7 +62,8 @@ app.use(session({
   secret: app.locals.secret,
   cookie: {
     maxAge: (30 * 24 * 60 * 60 * 1000)
-  }
+  },
+  createdAt: Date.now
 }));
 
 app.use('/',         indexRouter);
@@ -89,5 +95,18 @@ if (app.get('env') === 'production') {
 }
 
 app.listen(80, '0.0.0.0');
+
+async function redisSessions(redisClient) {
+  sessionCount = 0;
+  for await(const key of redisClient.scanIterator()) {
+    sessionData   = redisClient.get(await key);
+    sessionObject = JSON.parse(await sessionData);
+    if (!sessionObject.username) {
+      redisClient.del(await key);
+      sessionCount++;
+    }
+  }
+  console.log(`Clear ${await sessionCount} empty sessions.`);
+}
 
 module.exports = app;

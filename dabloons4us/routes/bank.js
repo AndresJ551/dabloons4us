@@ -6,7 +6,7 @@ var router  = express.Router();
 router.get('/', function(req, res, next) {
   if (req.session.username) {
     res.render('bank', {
-      title: 'Dabloons4us Bank',
+      title: 'Dabloons Bank',
       dabloons: req.session.dabloons,
       isLogged: true
     });
